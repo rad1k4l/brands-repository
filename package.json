@@ -1,0 +1,22 @@
+{
+  "name": "brands-repository",
+  "version": "1.0.0",
+  "description": "Search brand names",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rad1k4l/brands-repository.git"
+  },
+  "keywords": [
+    "brand"
+  ],
+  "author": "Orkhan Zeynalli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rad1k4l/brands-repository/issues"
+  },
+  "homepage": "https://github.com/rad1k4l/brands-repository#readme"
+}
