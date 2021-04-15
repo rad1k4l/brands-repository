@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/rad1k4l/brands-repository/issues"
   },
-  "homepage": "https://github.com/rad1k4l/brands-repository#readme"
+  "homepage": "https://github.com/rad1k4l/brands-repository#readme",
+  "devDependencies": {
+    "playwright": "^1.10.0"
+  }
 }
