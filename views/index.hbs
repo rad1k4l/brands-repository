@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <!------ Include the above in your HEAD tag ---------->
+
+</head>
+<body>
+<div>
+<section class="bg-light ">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="tab-content" id="search-app">
+                    <div class="tab-pane fade show active" id="nav-brand" role="tabpanel"
+                         aria-labelledby="nav-brand-tab">
+                        <div class="row py-5 my-4">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    <div class="row ">
+                                        <div class="col-12"><h2>Search brands logos</h2></div>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <div id="custom-search-input">
+                                                        <div class="input-group">
+                                                            <input v-model="query" type="text"
+                                                                   class="search-query form-control"
+                                                                   placeholder="Search"
+                                                                   @keypress.enter.prevent="search"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2">
+                                                    <button type="button" @click="search"
+                                                            class="btn btn-primary btn-block">Search
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="my-3"></div>
+<section id="search-result-app" style="min-height: 54vh">
+    <div class="container">
+        <div class="row py-2">
+            <div class="col-md-12">
+<!--                <h4>\{{ result.domain }}</h4>-->
+            </div>
+        </div>
+        <div class="row py-2">
+            <div v-if="result" v-for="site in result" class="col-md-3 vertical-box">
+                <div  class="card">
+                    <img class="card-img-top mh200-text"
+                         :src="site.url"
+                         alt="Card image">
+                    <div class="card-body">
+
+                        <h5 class="card-text">\{{ site.type }}</h5>
+
+                        <ul class="list-inline">
+                            <li class="list-inline-item">44,114 Km</li>
+                            <li class="list-inline-item">Petrol</li>
+                            <li class="list-inline-item">Gurugram</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-12">
+            <div align="center" v-if="errorMessage"><h1>\{{ errorMessage }}</h1></div>
+            <div align="center" v-if="loading"><img src="/img/loading.svg" alt="loading"></div>
+        </div>
+    </div>
+</section>
+<footer class="container" style="width: 100%;display: flex;justify-content: center;">
+    <a href="/" style="color:#44494b;text-align: center">Copyright &copy; Orkhan Zeynallı</a>
+</footer>
+</div>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/axios.js"></script>
+<script src="/js/vue.js"></script>
+<script>
+    const searchApp = new Vue({
+        el: '#search-app',
+        data: {
+            query: "http://mover.az"
+        },
+        methods: {
+            search: function () {
+                searchResultApp.onLoading();
+                axios.post('/search/domain', {domain: this.query}).then(response => {
+                    searchResultApp.onResult(response.data);
+                }).catch(err => {
+                    searchResultApp.onError(err.response.data.msg);
+                });
+            }
+        }
+    })
+    const searchResultApp = new Vue({
+        el: '#search-result-app',
+        data: {
+            result: null,
+            loading: false,
+            errorMessage: null
+        },
+        methods: {
+            onResult: function (result) {
+                this.errorMessage = null;
+                this.onLoadingDisabled();
+                this.result = result;
+            },
+            onLoading: function () {
+                this.result = null;
+                this.errorMessage = null;
+                this.loading = true;
+            },
+            onLoadingDisabled: function () {
+                this.loading = false;
+            },
+            onError: function (error) {
+                this.result = null;
+                this.onLoadingDisabled();
+                this.errorMessage = error;
+            }
+        }
+    });
+</script>
+</body>
+</html>
