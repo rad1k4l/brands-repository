@@ -8,6 +8,9 @@ const services = require('../generated/protos/google_grpc_pb');
 
 const grpc = require('@grpc/grpc-js');
 
+const {conf : config} = require('../conf')
+
+
 router.get('/', function (req, res, next) {
     res.render('index', {title: 'Brand fetch by url'});
 });
@@ -20,7 +23,7 @@ router.post('/search/domain', async function (req, res, next) {
     }
     const searchQuery = req.body.domain;
 
-    let client = new services.GoogleSearcherClient("localhost:42420", grpc.credentials.createInsecure());
+    let client = new services.GoogleSearcherClient(config.external.google_search_service, grpc.credentials.createInsecure());
     let request = new messages.GoogleSearchRequest();
     request.setQuery(searchQuery);
     const results = await new Promise(resolve => {
