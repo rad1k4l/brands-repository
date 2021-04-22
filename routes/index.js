@@ -26,12 +26,12 @@ router.post('/search/domain', async function (req, res, next) {
     let client = new services.GoogleSearcherClient(config.external.google_search_service, grpc.credentials.createInsecure());
     let request = new messages.GoogleSearchRequest();
     request.setQuery(searchQuery);
+    request.setStop(1);
     const results = await new Promise(resolve => {
         client.search(request, function (err, response) {
             resolve(response.getResultsList());
         });
     });
-
     let domain = results[0];
     if (!domain) {
         res.status(400).json({msg: 'validation error. please provide domain'}).end()

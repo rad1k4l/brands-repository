@@ -20,9 +20,7 @@ class Spider {
     }
 
     async fastScan(url) {
-        let rawLogos = await LogoScrape.getLogos(url);
-        console.log(rawLogos)
-        return rawLogos;
+        return await LogoScrape.getLogos(url);
     }
 }
 
